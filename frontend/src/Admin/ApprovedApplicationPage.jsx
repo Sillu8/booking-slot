@@ -6,10 +6,11 @@ import Layout from '../User/Pages/Layout'
 import { showLoading, hideLoading } from '../Redux/alertSlice'
 import axios from 'axios'
 import { Table } from 'antd';
-import toast from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast'
 
-function ApplicationsListPage() {
+function ApprovedApplicationPage() {
+
     const navigate = useNavigate()
     const [apps, setApps] = useState([]);
     const dispatch = useDispatch()
@@ -17,7 +18,7 @@ function ApplicationsListPage() {
         (async () => {
             try {
                 dispatch(showLoading())
-                const response = await axios.get("/admin/api/applications", {
+                const response = await axios.get("/admin/api/approved-applications", {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('jwt')}`
                     }
@@ -34,34 +35,6 @@ function ApplicationsListPage() {
         //eslint-disable-next-line
     }, [])
 
-
-    const changeApplicationStatus = async (record) => {
-        try {
-            dispatch(showLoading())
-            const response = await axios.post("/admin/approveApplication",
-                {
-                    _id: record._id, userId: record.userId, status: 'approved'
-                },
-                {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem('jwt')}`
-                    }
-                });
-
-            if (response.data.success) {
-                dispatch(hideLoading());
-                setApps(response.data.data);
-                toast.success('Successfully Approved');
-                navigate('/admin/apps');
-            } else {
-                toast.error('Some unknown error occured.')
-            }
-        } catch (error) {
-            dispatch(hideLoading());
-            console.log(error);
-            toast.error('Please try again later.')
-        }
-    }
 
 
     const rejectApplication = async (record) => {
@@ -93,6 +66,7 @@ function ApplicationsListPage() {
     }
 
 
+
     const columns = [
         {
             title: 'Name',
@@ -112,8 +86,21 @@ function ApplicationsListPage() {
             render: (text, record) => (
                 <div className='d-flex'>
                     <i class="ri-eye-fill"  style={{ cursor: 'pointer', fontSize: '27px', paddingRight: '10px' }} onClick={() => navigate(`/admin/application/${record._id}`)}></i>
-                    <i class="ri-checkbox-circle-fill" style={{ cursor: 'pointer', fontSize: '25px', paddingRight: '10px' }}  onClick={() => changeApplicationStatus(record)}></i>
                     <i class="ri-close-circle-fill" style={{ cursor: 'pointer', fontSize: '25px' }}  onClick={() => rejectApplication(record)}></i>
+                </div>
+            )
+        },
+        {
+            title: 'Slot',
+            dataIndex: 'slot',
+            render: (text, record) => (
+                <div className='d-flex'>
+                    {record.slot ? <p>{record.slot}</p>
+                    
+                    : 
+                    
+                    <i className="ri-coupon-3-fill" style={{cursor: "pointer"}}
+                     onClick={()=> navigate('/admin/slot',{state: {_id: record._id, company: record.companyName}})}></i>}
                 </div>
             )
         },
@@ -126,18 +113,19 @@ function ApplicationsListPage() {
             updatedAt: app.updatedAt,
             userId: app.userId,
             _id: app._id,
-            ...app.application
+            ...app.application,
+            slot: app.slot
         }
     })
 
     return (
         <Layout>
             <h1 className='text-center'>
-                New Applications
+                Approved Applications
             </h1>
             <Table columns={columns} dataSource={newApps} />
         </Layout>
     )
 }
 
-export default ApplicationsListPage
+export default ApprovedApplicationPage

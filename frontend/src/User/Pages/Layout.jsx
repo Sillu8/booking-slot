@@ -30,8 +30,12 @@ function Layout({ children }) {
             path: '/admin/newApps'
         },
         {
-            name: 'Pending Applications',
+            name: 'Applications',
             path: '/admin/Apps'
+        },
+        {
+            name: 'Rejected Apps',
+            path: '/admin/rejected-apps'
         },
         {
             name: 'Users',
@@ -75,7 +79,7 @@ function Layout({ children }) {
                             <i onClick={() => setCollapse(!collapse)}
                                 className='ri-menu-2-fill header-action-icon'></i>}
 
-                        <div className="d-flex align-items-center px-4" onClick={()=> navigate('/admin/notifications')}>
+                        <div className="d-flex align-items-center px-4" onClick={()=> navigate('/notifications')}>
                             <Badge count={user?.unseenNotifications.length}>
                                 <i className='ri-notification-line header-action-icon px-3'></i>
                             </Badge>

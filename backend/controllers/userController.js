@@ -107,7 +107,7 @@ const bookSlot = asyncHandler(async (req, res) => {
             appId: data._id,
             name: data.application.name
         },
-        onClickPath: '/admin/newapp'
+        onClickPath: '/admin/newApps'
     })
     await User.findByIdAndUpdate(admin._id, {unseenNotifications})
     res.json({success:true, message:"Success"})

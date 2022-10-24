@@ -1,23 +1,21 @@
-import React from 'react'
-import { useState } from 'react'
-import { useEffect } from 'react'
-import { useDispatch } from 'react-redux';
-import Layout from '../User/Pages/Layout'
-import { showLoading, hideLoading } from '../Redux/alertSlice'
-import axios from 'axios'
 import { Table } from 'antd';
-import toast from 'react-hot-toast'
+import axios from 'axios';
+import React, { useEffect, useState } from 'react'
+import toast from 'react-hot-toast';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { hideLoading, showLoading } from '../Redux/alertSlice';
+import Layout from '../User/Pages/Layout'
 
-function ApplicationsListPage() {
-    const navigate = useNavigate()
+function RejectedApps() {
     const [apps, setApps] = useState([]);
+    const navigate = useNavigate()
     const dispatch = useDispatch()
     useEffect(() => {
         (async () => {
             try {
                 dispatch(showLoading())
-                const response = await axios.get("/admin/api/applications", {
+                const response = await axios.get("/admin/rejected-apps", {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('jwt')}`
                     }
@@ -33,6 +31,9 @@ function ApplicationsListPage() {
         })();
         //eslint-disable-next-line
     }, [])
+
+
+    
 
 
     const changeApplicationStatus = async (record) => {
@@ -64,34 +65,6 @@ function ApplicationsListPage() {
     }
 
 
-    const rejectApplication = async (record) => {
-        try {
-            dispatch(showLoading())
-            const response = await axios.post("/admin/reject-app",
-                {
-                    _id: record._id, userId: record.userId, status: 'rejected'
-                },
-                {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem('jwt')}`
-                    }
-                });
-
-            if (response.data.success) {
-                dispatch(hideLoading());
-                setApps(response.data.data);
-                toast.success('The application has been rejected.');
-                navigate('/admin/rejected-apps');
-            } else {
-                toast.error('Some unknown error occured.')
-            }
-        } catch (error) {
-            dispatch(hideLoading());
-            console.log(error);
-            toast.error('Please try again later.')
-        }
-    }
-
 
     const columns = [
         {
@@ -113,7 +86,6 @@ function ApplicationsListPage() {
                 <div className='d-flex'>
                     <i class="ri-eye-fill"  style={{ cursor: 'pointer', fontSize: '27px', paddingRight: '10px' }} onClick={() => navigate(`/admin/application/${record._id}`)}></i>
                     <i class="ri-checkbox-circle-fill" style={{ cursor: 'pointer', fontSize: '25px', paddingRight: '10px' }}  onClick={() => changeApplicationStatus(record)}></i>
-                    <i class="ri-close-circle-fill" style={{ cursor: 'pointer', fontSize: '25px' }}  onClick={() => rejectApplication(record)}></i>
                 </div>
             )
         },
@@ -133,11 +105,11 @@ function ApplicationsListPage() {
     return (
         <Layout>
             <h1 className='text-center'>
-                New Applications
+                Rejected Applications
             </h1>
             <Table columns={columns} dataSource={newApps} />
         </Layout>
     )
 }
 
-export default ApplicationsListPage
+export default RejectedApps;

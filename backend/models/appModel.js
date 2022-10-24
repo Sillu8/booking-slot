@@ -42,6 +42,10 @@ const appSchema = mongoose.Schema({
     status: {
         type: String,
         default: 'pending'
+    },
+    slot: {
+        type: String,
+        default: null
     }
 },{timestamps: true})
 

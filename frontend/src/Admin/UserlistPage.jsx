@@ -44,15 +44,6 @@ function UserlistPage() {
             title: 'Phone',
             dataIndex: 'phone'
         },
-        {
-            title: 'Actions',
-            dataIndex: 'actions',
-            render: (text,record) => (
-                <div className='d-flex'>
-                    <h1 className='anchor'>Edit</h1> 
-                </div>
-            )
-        },
     ]
 
 

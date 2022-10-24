@@ -45,7 +45,7 @@
     background-color: white;
     border-radius: 5px;
     box-shadow: 0 0 2px gray;
-    height: 82vh;
+    min-height: 82vh;
 }
 .menu{
     margin-top: 50px;
@@ -78,6 +78,20 @@
 .ant-scroll-number-only-unit{
     padding-left: -10px !important;
     padding-bottom: -10px !important;
+}
+
+.label{
+    font-weight: 800;
+    padding-left: 5px;
+    padding-right: 5px;
+    font-size: medium;
+    padding-top: 10px;
+
+}
+
+.data{
+    font-size: medium;
+    padding-top: 10px;
 }
 
 @media screen and (max-width: 768px){

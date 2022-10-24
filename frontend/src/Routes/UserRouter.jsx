@@ -1,5 +1,6 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
+import NotificationsPage from '../Admin/NotificationsPage'
 import ApplicationPage from '../User/Pages/ApplicationPage'
 import LoginPage from '../User/Pages/LoginPage'
 import SignupPage from '../User/Pages/SignupPage'
@@ -16,6 +17,13 @@ function UserRouter() {
                         <LoginPage />
                     </PublicRoute>
                 } />
+
+                <Route path='/notifications' element={
+                    <PrivateRoutes>
+                        <NotificationsPage />
+                    </PrivateRoutes>
+                } />
+
                 <Route path='/signup' element={
                     <PublicRoute>
                         <SignupPage />
