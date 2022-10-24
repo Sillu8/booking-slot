@@ -2,6 +2,7 @@ const asyncHandler = require('express-async-handler');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const User = require('../models/userModel');
+const Application = require('../models/appModel');
 
 
 //@desc       Register new user
@@ -88,6 +89,32 @@ const getUser = (async (req, res) => {
 
 
 
+//@desc       Apply for slot
+//@route      POST /booking
+//@access     PUBLIC
+const bookSlot = asyncHandler(async (req, res) => {
+    const values = {...req.body.values}
+    const data = await Application.create({
+        userId: req.userId,
+        application: values 
+    });
+    const admin = await User.findOne({isAdmin: true})
+    const unseenNotifications = admin.unseenNotifications;
+    unseenNotifications.push({
+        type: "new-slot-request",
+        message: `${data.application.name} applied for a new slot.`,
+        data: {
+            appId: data._id,
+            name: data.application.name
+        },
+        onClickPath: '/admin/newapp'
+    })
+    await User.findByIdAndUpdate(admin._id, {unseenNotifications})
+    res.json({success:true, message:"Success"})
+})
+
+
+
 
 
 
@@ -100,5 +127,6 @@ const generateToken = (id) => {
 module.exports = {
     registerUser,
     loginUser,
-    getUser
+    getUser,
+    bookSlot
 }

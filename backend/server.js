@@ -8,7 +8,7 @@ const cors = require('cors')
 const {errorHandler} = require('./middleware/errorMiddleware')
 
 const userRouter = require('./routes/userRoutes')
-const adminRouter = require('./routes/admin')
+const adminRouter = require('./routes/adminRoutes')
 const connectDB = require('./config/db')
 
 connectDB();

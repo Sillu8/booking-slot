@@ -6,16 +6,43 @@ const appSchema = mongoose.Schema({
         ref: 'user'
     },
     application: {
-        type: Object,
+        name: {
+            type: String,
+            required: true,
+        },
+        address: {
+            type: String,
+            required: true,
+        },
+        city: {
+            type: String,
+            required: true,
+        },
+        state: {
+            type: String,
+            required: true,
+        },
+        companyName: {
+            type: String,
+            required: true,
+        },
+        email: {
+            type: String,
+            required: true,
+        },
+        strategy: {
+            type: String,
+            required: true,
+        },
+        revenueModel: {
+            type: String,
+            required: true,
+        },
     },
-    isApproved: {
-        type: Boolean,
-        default: false
-    },
-    isPending: {
-        type: Boolean,
-        default: false,
-    },
+    status: {
+        type: String,
+        default: 'pending'
+    }
 },{timestamps: true})
 
 module.exports = mongoose.model('application',appSchema)

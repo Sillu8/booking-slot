@@ -1,3 +1,4 @@
+import { Badge } from 'antd'
 import React from 'react'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
@@ -56,7 +57,7 @@ function Layout({ children }) {
                                     <Link to={menu.path}>{menu.name}</Link>
                                 </div>
                             })}
-                            <div  className={`d-flex menu-item`} style={{color: "rgba(255, 255, 255, 0.737)",cursor: 'pointer'}} onClick={()=> {
+                            <div className={`d-flex menu-item`} style={{ color: "rgba(255, 255, 255, 0.737)", cursor: 'pointer' }} onClick={() => {
                                 localStorage.clear();
                                 navigate('/')
                             }}>
@@ -74,9 +75,11 @@ function Layout({ children }) {
                             <i onClick={() => setCollapse(!collapse)}
                                 className='ri-menu-2-fill header-action-icon'></i>}
 
-                        <div className="d-flex align-items-center px-4">
-                            <i className='ri-notification-line header-action-icon px-3'></i>
-                            <Link to={'/profile'}>{user?.name}</Link>
+                        <div className="d-flex align-items-center px-4" onClick={()=> navigate('/admin/notifications')}>
+                            <Badge count={user?.unseenNotifications.length}>
+                                <i className='ri-notification-line header-action-icon px-3'></i>
+                            </Badge>
+                            <Link className='mx-3' to={'/profile'}>{user?.name}</Link>
                         </div>
                     </div>
                     <div className='body'>
