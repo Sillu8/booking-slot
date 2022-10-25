@@ -1,13 +1,15 @@
 import { Badge } from 'antd'
 import React from 'react'
 import { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { setUser } from '../../Redux/userSlice';
 import './layout.css'
 
 function Layout({ children }) {
     const [collapse, setCollapse] = useState(true)
     const { user } = useSelector(state => state.user)
+    const dispatch = useDispatch()
     const location = useLocation()
     const navigate = useNavigate()
     const userMenu = [
@@ -59,6 +61,7 @@ function Layout({ children }) {
                             })}
                             <div className={`d-flex menu-item`} style={{ color: "rgba(255, 255, 255, 0.737)", cursor: 'pointer' }} onClick={() => {
                                 localStorage.clear();
+                                dispatch(setUser(null))
                                 navigate('/')
                             }}>
                                 Logout

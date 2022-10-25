@@ -7,7 +7,7 @@ import Layout from './Layout'
 
 function UserHome() {
     const [user, setUser] = useState({})
-
+    // const location = useLocation()
     useEffect(() => {
         (async () => {
             try {
