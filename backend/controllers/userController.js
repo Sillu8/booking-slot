@@ -75,7 +75,7 @@ const loginUser = asyncHandler(async (req, res) => {
 //@access     PUBLIC
 const getUser = (async (req, res) => {
     try {
-        const data = await User.findById(req.userId);
+        const data = await User.findById(req.userId).select('-password').populate('appId');
     res.json({
         status:true,
         data
@@ -110,6 +110,10 @@ const bookSlot = asyncHandler(async (req, res) => {
         onClickPath: '/admin/newApps'
     })
     await User.findByIdAndUpdate(admin._id, {unseenNotifications})
+    await User.findOneAndUpdate({_id: req.userId},
+        {
+            appId: data._id
+        })
     res.json({success:true, message:"Success"})
 })
 

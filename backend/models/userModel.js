@@ -29,6 +29,10 @@ const userSchema = mongoose.Schema({
     unseenNotifications: {
         type: Array,
         default: []
+    },
+    appId : {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'application'
     } 
 }, { timestamps: true})
 

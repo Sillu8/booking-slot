@@ -19,10 +19,6 @@ function Layout({ children }) {
             name: "Add Application",
             path: "/booking",
         },
-        {
-            name: "Profile",
-            path: "/profile",
-        },
     ];
     const adminMenu = [
         {

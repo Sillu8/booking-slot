@@ -3,29 +3,29 @@ import React from 'react'
 import { Col, Form, Input, Row, Button } from 'antd'
 import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux'
-import {hideLoading, showLoading} from '../../Redux/alertSlice'
-import {toast} from 'react-hot-toast'
+import { hideLoading, showLoading } from '../../Redux/alertSlice'
+import { toast } from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 
 
 function ApplicationPage() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const {user} = useSelector(state => state.user)
+  const { user } = useSelector(state => state.user)
   const onFinish = values => {
     try {
-      (async ()=> {
+      (async () => {
         dispatch(showLoading())
-        const response = await axios.post('/booking',{values}, {
+        const response = await axios.post('/booking', { values }, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('jwt')}`
           }
         });
-        if(response.data.success){
+        if (response.data.success) {
           dispatch(hideLoading())
           toast.success("Hurray");
           navigate('/home')
-        }else{
+        } else {
           dispatch(hideLoading())
           console.log('some error');
         }
@@ -36,9 +36,15 @@ function ApplicationPage() {
     }
   }
   return (
-    <Layout>
-      <h1 className='page-title ms-4'>Application Form</h1>
 
+    <Layout>
+      <h1 className='page-title text-center'>Application Form</h1>
+      {user?.appId ?
+        <div >
+          <h2 className='pt-5 text-center'>You have already applied.</h2>
+        </div>
+        :
+      
       <Form layout='vertical' onFinish={onFinish}>
         <Row>
           <Col span={10} xs={24} sm={24} lg={10} style={{ padding: '0 10px' }}>
@@ -88,6 +94,7 @@ function ApplicationPage() {
           <Button className='primary-button' htmlType='submit'>SUBMIT</Button>
         </div>
       </Form>
+      }
     </Layout>
   )
 }
