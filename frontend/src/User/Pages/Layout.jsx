@@ -3,7 +3,6 @@ import React from 'react'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { setUser } from '../../Redux/userSlice';
 import './layout.css'
 
 function Layout({ children }) {
@@ -61,7 +60,9 @@ function Layout({ children }) {
                             })}
                             <div className={`d-flex menu-item`} style={{ color: "rgba(255, 255, 255, 0.737)", cursor: 'pointer' }} onClick={() => {
                                 localStorage.clear();
-                                dispatch(setUser(null))
+                                dispatch({
+                                    type: 'logout'
+                                })
                                 navigate('/')
                             }}>
                                 Logout

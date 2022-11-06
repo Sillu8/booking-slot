@@ -30,10 +30,9 @@ function UserHome() {
         <h1 className='text-center pt-3' >Welcome {user?.name}</h1>
 
         {
-            user?.isAdmin ? <p></p>
-            
+            user?.isAdmin ? 
+            <p></p>           
             :
-
                 user?.appId?.slot ?
                     <h3 className='text-center pt-4'>Your slot is booked at {user?.appId?.slot}</h3>
                     :

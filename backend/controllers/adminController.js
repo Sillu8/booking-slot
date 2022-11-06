@@ -95,7 +95,7 @@ const rejectApp = asyncHandler(async (req, res) => {
     await user.save();
     const applications = await Application.find({ status: 'pending' });
     res.json({
-        message: 'The application has been approved.',
+        message: 'The application has been rejected.',
         success: true,
         data: applications
     })
